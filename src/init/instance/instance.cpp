@@ -1,6 +1,8 @@
-#include <init/instance/intance.hpp>
+#include <init/instance/instance.hpp>
 
-Instance ( std::vector<Node*> t_nodes, std::vector<Node*> t_anchors,
+using namespace sim;
+
+Instance::Instance ( std::vector<Node*> t_nodes, std::vector<Node*> t_anchors,
            double t_radio_range, double t_noise,double t_start, double t_end ) {
     m_nodes = t_nodes;
     m_anchors = t_anchors;

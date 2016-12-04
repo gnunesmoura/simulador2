@@ -3,7 +3,6 @@
 #include <vector>
 #include <init/instance/node.hpp>
 
-
 namespace sim {
 
 class Instance {
@@ -13,7 +12,7 @@ public:
 
     Instance () {}
 
-    ~Instance
+    ~Instance () {}
 
     const double radio_range () { return m_radio_range; }
 
@@ -23,7 +22,7 @@ public:
 
     const double end () { return m_end; }
 
-    std::vector<Nodes*> nodes ();
+    std::vector<Node*> nodes ();
     
 private:
     std::vector<Node*> m_nodes;
