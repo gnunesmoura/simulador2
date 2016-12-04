@@ -2,10 +2,17 @@
 
 #include <valarray>
 #include <vector>
+#include <utility>
+#include <memory>
 #include <init/instance/edge.hpp>
 
 namespace sim {
-enum Type { anchor = 0, placed = 1, not_placed = -1};
+
+enum Type { anchor = 0, placed = 1, not_placed = -1 };
+
+using edge = std::pair<Node&, double>;
+
+using edges = std::vector<edge>;
 
 class Node {
 public:
@@ -13,29 +20,37 @@ public:
 
     Node () {}
 
-    const double& operator[] (std::size_t at);
+    ~Node ();
 
-    bool operator< (Node& b) const;
+    double operator[] (std::size_t at) const;
+
+    bool operator== (const Node& b) const;
+
+    bool operator< (const Node& b) const;
     
-    int id () { return m_id; }
+    int id () const { return m_id; }
 
-    Type type() { return m_type; }
+    Type type() const { return m_type; }
 
-    void add_edge (Node *b, const double dist);
+    void add_edge (Node& node, double dist);
 
-    const std::vector<Edge>& anchors () { return m_anchors; }
+    const edges& anchors () { return m_anchors; }
 
-    const std::vector<Edge>& neighbors () { return m_neighbors; }
+    const edges&  neighbors () { return m_neighbors; }
 
-    const std::vector<Edge>& placeds () {return m_placeds; }
+    const edges&  placeds () {return m_placeds; }
 
-    std::size_t anchors_size () const { return m_anchors.size (); }
+    inline std::size_t anchors_size () const { return m_anchors.size (); }
 
-    std::size_t neighbors_size () const { return m_neighbors.size (); }
+    inline std::size_t neighbors_size () const { return m_neighbors.size (); }
     
-    std::size_t placeds_size () const { return m_placeds.size (); }
+    inline std::size_t placeds_size () const { return m_placeds.size (); }
 
     void new_pos (std::valarray<double> t_pos) { m_pos = t_pos; }
+
+    void new_type (Type t_new);
+
+    void placement_notice (const Node& node);
 
 private:
     int m_id = -1;
@@ -44,11 +59,11 @@ private:
 
     Type m_type = not_placed;
 
-    std::vector<Edge> m_anchors;
+    edges m_anchors;
 
-    std::vector<Edge> m_neighbors;
+    edges m_neighbors;
 
-    std::vector<Edge> m_placeds;
+    edges m_placeds;
 };
 
 } //namespace
