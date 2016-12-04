@@ -14,14 +14,17 @@ const double& Node::operator[] (std::size_t at) {
     return 0;
 }
 
+bool Node::operator< (Node& b) const {
+    if (this->m_anchors.size() < b.anchors_size()) return true;
+    else if (this->m_anchors.size() == anchors_size()) 
+        if (this->m_placeds.size() < placeds_size()) return true;
+        else if (this->m_placeds.size() == placeds_size())
+            if (this->m_neighbors.size() < neighbors_size()) return true;
+    return false;
+}
+
 void Node::add_edge (Node *b, double dist) {
     if(b->type() == anchor) m_anchors.push_back (Edge (b, dist));
+    else if (b->type() == not_placed) m_neighbors.push_back (Edge (b, dist));
+    else m_placeds.push_back (Edge (b, dist));
 }
-
-const std::vector<Edge>& Node::anchors () {
-    return m_anchors;
-}
-
-// const auto& Node::neighbors ();
-
-// const auto& Node::placeds ();
