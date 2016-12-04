@@ -3,8 +3,6 @@
 #include <valarray>
 #include <vector>
 #include <utility>
-#include <memory>
-// #include <init/instance/edge.hpp>
 
 namespace sim {
 
