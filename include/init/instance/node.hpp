@@ -13,8 +13,6 @@ public:
 
     Node () {}
 
-    ~Node () {}
-
     const double& operator[] (std::size_t at);
 
     bool operator< (Node& b) const;
@@ -36,6 +34,8 @@ public:
     std::size_t neighbors_size () const { return m_neighbors.size (); }
     
     std::size_t placeds_size () const { return m_placeds.size (); }
+
+    void new_pos (std::valarray<double> t_pos) { m_pos = t_pos; }
 
 private:
     int m_id = -1;
