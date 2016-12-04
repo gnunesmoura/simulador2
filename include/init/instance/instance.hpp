@@ -1,18 +1,15 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include <init/instance/node.hpp>
 
 namespace sim {
 
 class Instance {
 public:
-    Instance ( std::vector<Node*> t_nodes, std::vector<Node*> t_anchors,
+    Instance ( std::vector< std::unique_ptr<Node> > t_nodes, std::vector< std::unique_ptr<Node> > t_anchors,
                double t_radio_range, double t_noise,double t_start, double t_end );
-
-    Instance () {}
-
-    ~Instance () {}
 
     const double radio_range () { return m_radio_range; }
 
@@ -25,9 +22,9 @@ public:
     std::vector<Node*> nodes ();
     
 private:
-    std::vector<Node*> m_nodes;
+    std::vector< std::unique_ptr<Node> >  m_nodes;
 
-    std::vector<Node*> m_anchors;
+    std::vector< std::unique_ptr<Node> >  m_anchors;
     
     double m_radio_range = 0;
 
