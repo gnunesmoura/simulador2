@@ -1,24 +1,11 @@
 #include <init/instance/node.hpp>
 
-
 using namespace sim;
-
-
-//delete this 
-#include <iostream>
-
 
 Node::Node (int t_id, std::valarray<double> t_pos, Type t_type) {
     m_id = t_id;
     m_pos = t_pos;
     m_type = t_type;
-}
-
-Node::~Node () {
-    std::cout << "oie\n";
-    m_neighbors.erase(m_neighbors.begin(), m_neighbors.end());
-    m_anchors.erase(m_anchors.begin(), m_anchors.end());
-    m_placeds.erase(m_placeds.begin(), m_placeds.end());
 }
 
 bool Node::operator== (const Node& b) const {
