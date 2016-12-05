@@ -8,13 +8,15 @@ namespace sim {
 
 enum Type { anchor = 0, placed = 1, not_placed = -1 };
 
+class Node;
+
+using edge = std::pair<Node&, double>;
+
+using edges = std::vector<edge>;
+
 class Node {
 public:
     Node (int t_id, std::valarray<double> t_pos, Type t_type);
-
-    using edge = std::pair<Node&, double>;
-
-    using edges = std::vector<edge>;
 
     double operator[] (std::size_t at) const;
 
@@ -59,9 +61,5 @@ private:
 
     edges m_placeds;
 };
-
-using edge = std::pair<Node&, double>;
-
-using edges = std::vector<edge>;
 
 } //namespace
