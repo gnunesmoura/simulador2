@@ -14,6 +14,8 @@ using vector = std::valarray<double>;
 class Movement {
 public:
     Movement (Node * t_node, double t_range, double t_noise);
+    
+    bool operator< (const Movement& b) const {return *m_node < b.node(); }
 
     bool move (bool placed);
 
@@ -22,6 +24,8 @@ public:
     void release_stress ();
 
     constexpr const static double m_static = 0.000000000000001;
+
+    const Node& node () const { return *m_node; }
 
 private:
     Node* m_node;
