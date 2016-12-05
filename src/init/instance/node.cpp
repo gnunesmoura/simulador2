@@ -27,8 +27,8 @@ bool Node::operator< (const Node& b) const {
     return false;
 }
 
-void Node::add_edge (Node& node, double dist) {
-    edge e(node, dist);
+void Node::add_edge (double dist, Node& node) {
+    edge e(dist, node);
     if(node.type() == anchor) m_anchors.push_back (e);
     else if (node.type() == not_placed) m_neighbors.push_back (e);
     else m_placeds.push_back (e);
@@ -39,14 +39,14 @@ void Node::new_type (Type t_new) {
     m_type = t_new;
     if(t_new == placed) {
         for (auto& e : m_neighbors) {
-            e.first.placement_notice (*this);
+            e.second.placement_notice (*this);
         }
     }
 }
 
 void Node::placement_notice (const Node & node) {
     auto obj = find_if( m_neighbors.begin (), m_neighbors.end (), 
-    [&](const edge& e) { return e.first == node; });
+    [&](const edge& e) { return e.second == node; });
     if (obj != std::end(m_neighbors))
         m_placeds.push_back (*obj);
 }

@@ -3,6 +3,8 @@
 #include <init/instance/node.hpp>
 #include <init/instance/instance.hpp>
 #include <init/dao/instance_read.hpp>
+#include <init/motion/movement.hpp>
+
 using namespace std;
 
 int main (int argc, char* argv[]) {
@@ -14,6 +16,15 @@ int main (int argc, char* argv[]) {
     sim::Instance_reader reader(argv[argc-1]);
     auto instance = reader.read_instance ();
 
+    auto nodes = instance->nodes ();
 
+    sim::Movement m (nodes[0], 0, 0);
+    
+    m.move(false);
+    
+    for (auto axiss: nodes[0]->pos()) cout << axiss << " ";
+    cout << endl;
+
+    
     return 0;
 }

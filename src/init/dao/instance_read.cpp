@@ -46,8 +46,8 @@ std::unique_ptr<Instance> Instance_reader::read_instance () {
         while(arq >> indice && indice != -1) {
             arq >> dist;
             real = indice + anchors_size;
-            nodes[i]->add_edge (*nodes[real], dist);
-            nodes[real]->add_edge (*nodes[i], dist);
+            nodes[i]->add_edge (dist, *nodes[real]);
+            nodes[real]->add_edge (dist, *nodes[i]);
         }
         arq >> indice;
     }
@@ -57,8 +57,8 @@ std::unique_ptr<Instance> Instance_reader::read_instance () {
         while(arq >> indice && indice != -1) {
             arq >> dist;
             real = indice + anchors_size;
-            nodes[i]->add_edge (*nodes[real], dist);
-            nodes[real]->add_edge (*nodes[i], dist);
+            nodes[i]->add_edge (dist, *nodes[real]);
+            nodes[real]->add_edge (dist, *nodes[i]);
         }
         arq >> indice;
     }

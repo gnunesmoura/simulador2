@@ -3,20 +3,17 @@
 #include <valarray>
 #include <vector>
 #include <utility>
+#include <init/instance/edge.hpp>
 
 namespace sim {
 
 enum Type { anchor = 0, placed = 1, not_placed = -1 };
 
-class Node;
-
-using edge = std::pair<Node&, double>;
-
-using edges = std::vector<edge>;
-
 class Node {
 public:
     Node (int t_id, std::valarray<double> t_pos, Type t_type);
+
+    Node() {}
 
     double operator[] (std::size_t at) const;
 
@@ -28,7 +25,7 @@ public:
 
     Type type() const { return m_type; }
 
-    void add_edge (Node& node, double dist);
+    void add_edge (double dist, Node& node);
 
     const edges& anchors () { return m_anchors; }
 
@@ -47,6 +44,8 @@ public:
     void new_type (Type t_new);
 
     void placement_notice (const Node& node);
+
+    const std::valarray<double>& pos () { return m_pos; }
 
 private:
     int m_id = -1;
