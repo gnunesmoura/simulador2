@@ -15,6 +15,7 @@ Instance::Instance ( std::vector< std::unique_ptr<Node> > t_nodes, std::vector< 
 
 std::vector<Node*> Instance::nodes () {
     std::vector<Node*> nodes;
+    nodes.reserve (m_nodes.size());
     for (auto& node : m_nodes) {
         nodes.push_back (node.get ()); 
     }
