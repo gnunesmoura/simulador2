@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdio.h>
 #include <valarray>
 #include <vector>
 #include <utility>
@@ -9,9 +10,11 @@ namespace sim {
 
 enum Type { anchor = 0, placed = 1, not_placed = -1 };
 
+using point = std::valarray<double>;
+
 class Node {
 public:
-    Node (int t_id, std::valarray<double> t_pos, Type t_type);
+    Node (int t_id, point t_pos, Type t_type);
 
     Node() {}
 
@@ -39,18 +42,22 @@ public:
     
     inline std::size_t placeds_size () const { return m_placeds.size (); }
 
-    void new_pos (std::valarray<double> t_pos) { m_pos = t_pos; }
+    void new_pos (point t_pos) { m_pos = t_pos; }
 
     void new_type (Type t_new);
 
     void placement_notice (const Node& node);
 
-    const std::valarray<double>& pos () { return m_pos; }
+    const point& pos () { return m_pos; }
+
+    void print_geo ();
+
+    void print_edges_geo ();
 
 private:
     int m_id = -1;
 
-    std::valarray<double> m_pos;
+    point m_pos;
 
     Type m_type = not_placed;
 

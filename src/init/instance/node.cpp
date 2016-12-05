@@ -2,7 +2,7 @@
 
 using namespace sim;
 
-Node::Node (int t_id, std::valarray<double> t_pos, Type t_type) {
+Node::Node (int t_id, point t_pos, Type t_type) {
     m_id = t_id;
     m_pos = t_pos;
     m_type = t_type;
@@ -49,4 +49,15 @@ void Node::placement_notice (const Node & node) {
     [&](const edge& e) { return e.second == node; });
     if (obj != std::end(m_neighbors))
         m_placeds.push_back (*obj);
+}
+
+
+void Node::print_geo () {
+    if(m_type == anchor) {
+        printf("A_{%d} = (%.5lf, %.5lf)\n", m_id, m_pos[0], m_pos[1]);
+    } else printf("N_{%d} = (%.5lf, %.5lf)\n", m_id, m_pos[0], m_pos[1]);
+}
+
+void Node::print_edges_geo () {
+    
 }
