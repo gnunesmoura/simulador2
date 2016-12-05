@@ -19,7 +19,7 @@ public:
 
     void release_stress ();
 
-    constexpr const static double m_static = 0.00000000000000001;
+    constexpr const static double m_static = 0.000000000000001;
 
 private:
     Node* m_node;

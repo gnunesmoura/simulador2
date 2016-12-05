@@ -20,7 +20,11 @@ int main (int argc, char* argv[]) {
 
     sim::Movement m (nodes[0], 0, 0);
     
-    m.move(false);
+    cout << m.m_static << endl;
+
+    while (m.move(false));
+
+    m.release_stress ();
     
     for (auto axiss: nodes[0]->pos()) cout << axiss << " ";
     cout << endl;

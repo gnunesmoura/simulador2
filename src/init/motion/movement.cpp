@@ -29,11 +29,21 @@ bool Movement::move (bool placed) {
     if (placed)
         move /= m_node->anchors_size() + m_node->placeds_size();
     else move /= m_node->anchors_size();
-
-    for (auto& m: move) std::cout << m << " ";
-    std::cout << "\n";
+    
     new_pos (move);
-    return true;
+    if(norm(move) > m_static) return true;
+    return false;
+}
+
+bool Movement::stress () {
+
+}
+
+void Movement::release_stress () {
+    edge strong = strongest_edge ();
+    if(strong.first == 0) return;
+    new_pos (movement(strong));
+    new_pos ((strong.second.pos() - m_node->pos ())*2);
 }
 
 edge Movement::strongest_edge () {
