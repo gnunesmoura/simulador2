@@ -9,6 +9,8 @@
 
 namespace sim {
 
+using vector = std::valarray<double>;
+
 class Movement {
 public:
     Movement (Node * t_node, double t_range, double t_noise);
@@ -32,11 +34,11 @@ private:
 
     edge strongest_edge ();
 
-    inline void new_pos (std::valarray<double> move);
+    inline void new_pos (const vector& move);
 
-    inline std::valarray<double> movement (const edge& neighbor);
+    inline vector movement (const edge& neighbor);
 
-    inline double norm (const std::valarray<double>& vector);
+    inline double norm (const vector& vec);
 };
 
 } //namespace

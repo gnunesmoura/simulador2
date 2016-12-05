@@ -10,14 +10,15 @@ Movement::Movement (Node * t_node, double t_range, double t_noise) {
     m_range = t_range;
 
     m_acceptable_error = m_range * m_noise;
-    if (m_acceptable_error < m_static) m_acceptable_error = m_static;
+    if (m_acceptable_error < m_static) m_acceptable_error = 0.0000001;
+    
     edge strong = strongest_edge ();
     if(strong.first != 0)
         new_pos ( movement (strong));
 }
 
 bool Movement::move (bool placed) {
-    std::valarray<double> move(m_node->pos().size());
+    vector move(m_node->pos().size());
     
     for (auto& e: m_node-> anchors())
         move += movement(e);
@@ -29,14 +30,25 @@ bool Movement::move (bool placed) {
     if (placed)
         move /= m_node->anchors_size() + m_node->placeds_size();
     else move /= m_node->anchors_size();
-    
+
     new_pos (move);
     if(norm(move) > m_static) return true;
     return false;
 }
 
 bool Movement::stress () {
+    auto anchors = m_node->anchors ();
+    auto st = std::find_if(anchors.begin(), anchors.end(), 
+            [&](const edge& e){ return norm(movement(e)) > m_acceptable_error; } );
 
+    if (st != anchors.end()) return true;
+
+    auto placeds = m_node->placeds ();
+    st = std::find_if(placeds.begin(), placeds.end(), 
+            [&](const edge& e){ return norm(movement(e)) > m_acceptable_error; } );
+
+    if (st != placeds.end()) return true;
+    return false;
 }
 
 void Movement::release_stress () {
@@ -62,12 +74,12 @@ edge Movement::strongest_edge () {
     return *strong_a;
 }
 
-inline void Movement::new_pos (std::valarray<double> move) {
+inline void Movement::new_pos (const vector& move) {
     m_node->new_pos (m_node->pos () + move);
 }
 
-inline std::valarray<double> Movement::movement (const edge& neighbor) {
-    std::valarray<double> move = m_node->pos () - neighbor.second.pos ();
+inline vector Movement::movement (const edge& neighbor) {
+    vector move = m_node->pos () - neighbor.second.pos ();
 
     double divider = norm(move)/neighbor.first;
     move = (neighbor.second.pos () - m_node->pos ()) + (move/divider);
@@ -75,8 +87,8 @@ inline std::valarray<double> Movement::movement (const edge& neighbor) {
     return move;
 }
 
-inline double Movement::norm (const std::valarray<double>& vector) {
-    std::valarray<double> sqr = std::pow(vector, 2.0);
+inline double Movement::norm (const vector& vec) {
+    vector sqr = std::pow(vec, 2.0);
     double sqr_sum = sqr.sum();
     if (sqr_sum == 0) return 0;
     return std::sqrt(sqr_sum);
