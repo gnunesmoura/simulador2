@@ -60,4 +60,8 @@ private:
     edges m_placeds;
 };
 
+using edge = std::pair<Node&, double>;
+
+using edges = std::vector<edge>;
+
 } //namespace
