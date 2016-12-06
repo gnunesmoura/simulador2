@@ -1,8 +1,10 @@
 #pragma once 
 
 #include <vector>
+#include <algorithm>
 
 #include <init/instance/node.hpp>
+#include <init/instance/instance.hpp>
 #include <init/motion/movement.hpp>
 
 namespace sim {
@@ -22,7 +24,7 @@ private:
 
     void find_place (Node * t_node);
     
-    void move_until_stop (Movement& t_move);
+    void move_until_stop (Movement& t_move, bool placed);
 
 };
 
