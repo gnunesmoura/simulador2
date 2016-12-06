@@ -13,7 +13,8 @@ Movement::Movement (Node * t_node, double t_range, double t_noise) {
     if (m_acceptable_error < m_static) m_acceptable_error = 0.0000001;
     
     edge strong = strongest_edge ();
-    if(strong.first != 0)
+
+    if(strong.second != *m_node)
         new_pos ( movement (strong));
 }
 
@@ -67,11 +68,12 @@ edge Movement::strongest_edge () {
 
     if ( strong_a != anchors.end () && strong_p != placeds.end () )
         return std::min(*strong_a, *strong_p);
-
+    
     if ( strong_p != placeds.end () ) return *strong_p;
     if ( strong_a != anchors.end () ) return *strong_a;
 
-    return *strong_a;
+    edge e(0, *m_node);
+    return e;
 }
 
 inline void Movement::new_pos (const vector& move) {
@@ -80,8 +82,12 @@ inline void Movement::new_pos (const vector& move) {
 
 inline vector Movement::movement (const edge& neighbor) {
     vector move = m_node->pos () - neighbor.second.pos ();
+    
+    double move_norm = norm(move);
+    if (move_norm == 0) return move;
 
-    double divider = norm(move)/neighbor.first;
+    double divider = move_norm/neighbor.first;
+
     move = (neighbor.second.pos () - m_node->pos ()) + (move/divider);
 
     return move;
