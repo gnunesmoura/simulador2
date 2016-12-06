@@ -22,7 +22,11 @@ public:
 
     bool operator== (const Node& b) const;
 
+    bool operator!= (const Node& b) const { return !(*this == b); }
+
     bool operator< (const Node& b) const;
+
+    bool operator> (const Node& b) const { return b < *this; } 
     
     int id () const { return m_id; }
 
