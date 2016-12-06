@@ -54,10 +54,37 @@ void Node::placement_notice (const Node & node) {
 
 void Node::print_geo () {
     if(m_type == anchor) {
-        printf("A_{%d} = (%.5lf, %.5lf)\n", m_id, m_pos[0], m_pos[1]);
-    } else printf("N_{%d} = (%.5lf, %.5lf)\n", m_id, m_pos[0], m_pos[1]);
+        printf("A_{%d} = (%.15lf, %.15lf)\n", m_id, m_pos[0], m_pos[1]);
+    } else printf("N_{%d} = (%.15lf, %.15lf)\n", m_id, m_pos[0], m_pos[1]);
 }
 
 void Node::print_edges_geo () {
-    
+    print_geo ();
+
+    for (auto e : m_anchors) {
+        int idB = e.second.id (); 
+        e.second.print_geo ();
+        printf("C_{%d,%d} = Circle[A_{%d}, %.15lf]\n", idB, m_id, idB, e.first);
+        printf("L_{%d,%d} = Ray[A_{%d}, N_{%d}]\n", idB, m_id, idB, m_id);
+        printf("P_{%d,%d} = Intersect[C_{%d,%d}, L_{%d,%d}]\n", idB, m_id, idB, m_id, idB, m_id);
+        printf("F_{%d,%d} = Vector[N_{%d}, P_{%d,%d}]\n", m_id, idB, m_id, idB, m_id);
+    }
+    for (auto e: m_placeds) {
+        int idB = e.second.id ();         
+        e.second.print_geo ();        
+        printf("C_{%d,%d} = Circle[N_{%d}, %.15lf]\n", idB, m_id, idB, e.first);
+        printf("L_{%d,%d} = Ray[N_{%d}, N_{%d}]\n", idB, m_id, idB, m_id);
+        printf("P_{%d,%d} = Intersect[C_{%d,%d}, L_{%d,%d}]\n", idB, m_id, idB, m_id, idB, m_id);
+        printf("F_{%d,%d} = Vector[N_{%d}, P_{%d,%d}]\n", m_id, idB, m_id, idB, m_id);
+    }
+
+    printf("F_{%d} = Vector[ N_{%d}, ", m_id, m_id);
+    for (auto e : m_anchors) {
+        printf (" F_{%d,%d} +", m_id, e.second.id());
+    }
+    for (auto e : m_placeds) {
+        printf (" F_{%d,%d} +", m_id, e.second.id());
+    }
+    printf(" N_{%d}] \n\n", m_id);
+
 }
