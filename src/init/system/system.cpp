@@ -22,6 +22,13 @@ void System::solve () {
             if(t_node->type() != placed) find_place(t_node);
         });
     }
+
+    for_each (nodes.begin (), nodes.end (), [&](Node * t_node){
+        if (t_node->type () != placed) {
+            Movement move(t_node, m_instance.radio_range (), m_instance.noise ());
+            move_until_stop (move, true);
+        }
+    });    
 }
 
 void System::find_place (Node * t_node) {
