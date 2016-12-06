@@ -8,7 +8,7 @@
 
 namespace sim {
 
-enum Type { anchor = 0, placed = 1, not_placed = -1 };
+enum Type { anchor = 0, placed = 1, not_placed = 2 };
 
 using point = std::valarray<double>;
 
