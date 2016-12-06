@@ -88,8 +88,8 @@ std::unique_ptr<Instance> Instance_reader::read_real_instance () {
     int anchors_size, nodes_size, i, id;
     double range, x, y;
 
-    arq >> nodes_size;
     arq >> anchors_size;
+    arq >> nodes_size;
     arq >> range;
 
     int size = nodes_size + anchors_size;
