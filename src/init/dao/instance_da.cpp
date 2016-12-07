@@ -2,14 +2,6 @@
 
 using namespace sim;
 
-Instance_reader::Instance_reader(std::string t_instance_name) {
-    m_instance_name = t_instance_name;
-
-    m_loc_file = "instancias/loc/" + m_instance_name + "_loc.txt";
-    m_rede_file = "instancias/rede/" + m_instance_name + "_rede.txt";
-    m_result_file = "instancias/result/" + m_instance_name + "_result.txt";
-}
-
 std::unique_ptr<Instance> Instance_reader::read_instance () {
     std::ifstream arq;
     arq.open (m_loc_file.c_str ());
