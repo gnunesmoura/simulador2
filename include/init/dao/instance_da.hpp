@@ -18,7 +18,7 @@ public:
 
     std::unique_ptr<Instance> read_real_instance ();
 
-    void print_result_file ();
+    void print_result_file (Instance& t_calc);
 
 private:
     std::string m_instance_name;
@@ -26,6 +26,8 @@ private:
     std::string m_loc_file;
 
     std::string m_rede_file;
+
+    std::string m_result_file;
 };
 
 }

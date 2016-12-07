@@ -7,6 +7,7 @@ Instance_reader::Instance_reader(std::string t_instance_name) {
 
     m_loc_file = "instancias/loc/" + m_instance_name + "_loc.txt";
     m_rede_file = "instancias/rede/" + m_instance_name + "_rede.txt";
+    m_result_file = "instancias/result/" + m_instance_name + "_result.txt";
 }
 
 std::unique_ptr<Instance> Instance_reader::read_instance () {
@@ -73,7 +74,7 @@ std::unique_ptr<Instance> Instance_reader::read_instance () {
     for (; i < size; ++i) { 
         commons.push_back (std::move (nodes[i]));
     }
-
+    arq.close ();
     return std::make_unique<Instance>(std::move (commons),
            std::move (anchors), range, noise, start, end);
 }
@@ -108,10 +109,17 @@ std::unique_ptr<Instance> Instance_reader::read_real_instance () {
         a = {x, y};
         commons.push_back (std::make_unique<Node> (id, a, placed));
     }
+    arq.close ();
     return std::make_unique<Instance>(std::move (commons),
            std::move (anchors), range, -1, -1, -1);
 }
 
-void Instance_reader::print_result_file () {
+void Instance_reader::print_result_file (Instance& t_calc) {
+    std::ofstream arq;
+    arq.open (m_result_file.c_str());
 
+    for (auto node : t_calc.nodes ()) {
+        arq << (*node)[0] << " " << (*node)[1] << "\n";
+    }
+    arq.close ();
 }
