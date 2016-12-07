@@ -2,19 +2,14 @@
 
 using namespace sim;
 
-Evaluation::Evaluation (Instance& t_calc, Instance& t_real) : 
-                        m_calc(t_calc), m_real(t_real) {
-    calculate(t_calc, t_real);
-}
-
-void Evaluation::calculate (Instance& t_calc, Instance& t_real) {
+void Evaluation::calculate () {
     double desv_total = 0, erro, desv_ar = 0, range_quad, erro_quad = 0;
     
-    range_quad = t_calc.radio_range ();
+    range_quad = m_calc.radio_range ();
     range_quad *= range_quad;
 
-    auto calc = t_calc.nodes ();
-    auto real = t_real.nodes ();
+    auto calc = m_calc.nodes ();
+    auto real = m_real.nodes ();
 
     for (int i = 0; i < calc.size (); ++i) {
         erro = norm (calc[i], real[i]);

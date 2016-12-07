@@ -14,7 +14,8 @@ using vector = std::valarray<double>;
 
 class Evaluation {
 public:
-    Evaluation (Instance& t_calc, Instance& t_real);
+    Evaluation (Instance& t_calc, Instance& t_real): 
+                m_calc(t_calc), m_real(t_real) { calculate(); }
 
     void show_erro (bool geo, double acceptable_erro);
 
@@ -29,14 +30,13 @@ public:
     double m_par = 0;
 
 private:
-    void calculate (Instance& t_calc, Instance& t_real);
+    void calculate ();
 
     inline double norm (Node* a, Node* b);
 
     Instance& m_calc;
     
     Instance& m_real;
-    
 };
 
 } //namespace
