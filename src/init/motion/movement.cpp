@@ -43,7 +43,7 @@ bool Movement::stress () {
     auto st = std::find_if(anchors.begin(), anchors.end(), 
                            [&](const edge& e){ 
                                 return norm (movement (e)) > m_acceptable_error ||
-                                e.second.trespass (*m_node, limit); 
+                                e.second.trespass_neighbor (*m_node, limit); 
                            });
 
     if (st != anchors.end()) return true;
@@ -52,7 +52,7 @@ bool Movement::stress () {
     st = std::find_if(placeds.begin(), placeds.end(), 
                       [&](const edge& e){ 
                           return norm (movement (e)) > m_acceptable_error ||
-                          e.second.trespass (*m_node, limit); 
+                          e.second.trespass_neighbor (*m_node, limit); 
                       });
 
     if (st != placeds.end()) return true;

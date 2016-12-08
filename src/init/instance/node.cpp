@@ -33,7 +33,7 @@ void Node::add_edge (double dist, Node& node) {
     else if (node.type() == not_placed) m_neighbors.push_back (e);
     else {
         m_placeds.push_back (e);
-        m_commons.push_back (e);
+        m_neighbors.push_back (e);
     }
 }
 
@@ -58,17 +58,17 @@ void Node::placement_notice (const Node & node) {
 
 bool Node::trespass_neighbor (const Node& t_node, const double limit) {
     auto res = std::find_if (m_placeds.begin (), m_placeds.end (), 
-                             [&](const Node& node){
-                                 return limit > dist (t_node, node) &&
-                                 (!t_node.is_neighbor (node)); 
+                             [&](const edge& e){
+                                 return e.second != t_node && limit > e.dist (t_node) &&
+                                 (!t_node.is_neighbor (e.second)); 
                              });
 
     if (res != m_placeds.end ()) return true;
 
     res = std::find_if (m_anchors.begin (), m_anchors.end (), 
-                        [&](const Node& node){
-                            return limit > dist (t_node, node) &&
-                            (!t_node.is_neighbor (node)); 
+                        [&](const edge& e){
+                            return limit > e.dist (t_node) && 
+                            (!t_node.is_neighbor (e.second)); 
                         });
     
     if (res != m_anchors.end ()) return true;

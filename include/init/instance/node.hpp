@@ -4,6 +4,7 @@
 #include <valarray>
 #include <vector>
 #include <utility>
+
 #include <init/instance/edge.hpp>
 
 namespace sim {
@@ -52,7 +53,7 @@ public:
 
     void placement_notice (const Node& node);
 
-    const point& pos () { return m_pos; }
+    const point& pos () const { return m_pos; }
 
     void print_geo ();
 
