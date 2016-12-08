@@ -25,7 +25,7 @@ bool Movement::move (bool placed) {
         move += movement(e);
 
     if (placed)
-        for (auto& e: m_node-> placeds())
+        for (auto& e: m_node-> placeds ())
             move += movement(e);
 
     if (placed)
@@ -49,6 +49,8 @@ bool Movement::stress () {
             [&](const edge& e){ return norm(movement(e)) > m_acceptable_error; } );
 
     if (st != placeds.end()) return true;
+
+    
     return false;
 }
 

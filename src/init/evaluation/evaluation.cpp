@@ -41,11 +41,11 @@ void Evaluation::show_erro (bool geo, double acceptable_erro) {
     int nNodes = calc.size (), cont = 0;
     double erro; 
     std::cout << "\n\n";
-    if (!geo) std::cout << "|id\t|tipo\t|Anchor\t|Placed\t|erro\t\t|\n";
+    if (!geo) std::cout << "|id\t|tipo\t|Anchor\t|Placed\t|erro\t\t\t|\n";
     for (int i = 0; i < nNodes; ++i) {
         erro = norm(calc[i], re[i]);
         if(erro > acceptable_erro) {
-            if (!geo) printf("|%d\t|%d\t|%d\t|%d\t|%.10lf\t\t|\n", calc[i]->id (), calc[i]->type (), calc[i]->anchors_size (), erro);
+            if (!geo) printf("|%d\t|%d\t|%d\t|%d\t|%.15lf\t|\n", calc[i]->id (), calc[i]->type (), calc[i]->anchors_size (), calc[i]->placeds_size (), erro);
             else calc[i]->print_edges_geo ();
             cont ++;
         }

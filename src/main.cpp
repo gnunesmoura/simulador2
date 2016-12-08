@@ -26,11 +26,12 @@ int main (int argc, char* argv[]) {
 
     sim::Evaluation r (*(instance.get ()), *(real.get ()));
 
-    r.show_erro(true, 0.01);
+    r.show_erro(false, 0.000000001);
 
-    printf("[desvMed\t%.10lf\tdesvMax\t%.10lf\tdesvQuad\t%.10lf\trmsd\t%.10lf\tpar\t%.10lf ]\n", r.m_desv_med, r.m_desv_max, r.m_desv_quad, r.m_rmsd, r.m_par);
+    cout << "[desvMed " << r.m_desv_med << " desvMax " << r.m_desv_max << " desvQuad " << r.m_desv_quad << " rmsd " << r.m_rmsd << " par " << r.m_par << "]\n";
+    // printf("[desvMed\t%.lf\tdesvMax\t%.lf\tdesvQuad\t%.lf\trmsd\t%.lf\tpar\t%.lf ]\n", r.m_desv_med, r.m_desv_max, r.m_desv_quad, r.m_rmsd, r.m_par);
 
-    reader.print_result_file (*(instance.get ()));
+    reader.print_result_file (*instance);
 
     return 0;
 }
