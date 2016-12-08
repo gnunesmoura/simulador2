@@ -39,18 +39,24 @@ bool Movement::move (bool placed) {
 
 bool Movement::stress () {
     auto anchors = m_node->anchors ();
+    double limit  = m_range - (m_range * m_acceptable_error);
     auto st = std::find_if(anchors.begin(), anchors.end(), 
-            [&](const edge& e){ return norm(movement(e)) > m_acceptable_error; } );
+                           [&](const edge& e){ 
+                                return norm (movement (e)) > m_acceptable_error ||
+                                e.second.trespass (*m_node, limit); 
+                           });
 
     if (st != anchors.end()) return true;
 
     auto placeds = m_node->placeds ();
     st = std::find_if(placeds.begin(), placeds.end(), 
-            [&](const edge& e){ return norm(movement(e)) > m_acceptable_error; } );
+                      [&](const edge& e){ 
+                          return norm (movement (e)) > m_acceptable_error ||
+                          e.second.trespass (*m_node, limit); 
+                      });
 
     if (st != placeds.end()) return true;
 
-    
     return false;
 }
 
