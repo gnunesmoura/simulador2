@@ -28,9 +28,13 @@ bool Movement::move (bool placed) {
         for (auto& e: m_node-> placeds ())
             move += movement(e);
 
-    if (placed)
-        move /= m_node->anchors_size() + m_node->placeds_size();
-    else move /= m_node->anchors_size();
+    int anchors_size = m_node->anchors_size ();
+    int placeds_size = m_node->placeds_size ();
+    int sum = anchors_size + placeds_size;
+    
+    if (!sum) return false;
+    if (placed && placeds_size) move /= sum;
+    else if (anchors_size) move /= anchors_size; 
 
     new_pos (move);
     if(norm(move) > m_static) return true;
