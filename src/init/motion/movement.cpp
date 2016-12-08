@@ -27,10 +27,14 @@ bool Movement::move (bool placed) {
     if (placed)
         for (auto& e: m_node-> placeds ())
             move += movement(e);
-
-    if (placed)
-        move /= m_node->anchors_size() + m_node->placeds_size();
-    else move /= m_node->anchors_size();
+    
+    int anchors_size = m_node->anchors_size ();
+    int placeds_size = m_node->placeds_size ();
+    int sum = anchors_size + placeds_size;
+    
+    if (!sum) return false;
+    if (placed && placeds_size) move /= sum;
+    else if (anchors_size) move /= anchors_size; 
 
     new_pos (move);
     if(norm(move) > m_static) return true;
@@ -89,15 +93,14 @@ inline void Movement::new_pos (const vector& move) {
 }
 
 inline vector Movement::movement (const edge& neighbor) {
-    vector move = m_node->pos () - neighbor.second.pos ();
+    vector move(m_node->pos () - neighbor.second.pos ());
     
     double move_norm = norm(move);
-    if (move_norm == 0) return move;
+    if (move_norm == 0) return move - move;
 
     double divider = move_norm/neighbor.first;
 
     move = (neighbor.second.pos () - m_node->pos ()) + (move/divider);
-
     return move;
 }
 

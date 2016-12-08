@@ -8,7 +8,6 @@ namespace sim {
 
 class Node;
 
-
 typedef struct edge {
     constexpr edge (double t_value, Node& t_node) : 
           first(t_value), second(t_node) {};
