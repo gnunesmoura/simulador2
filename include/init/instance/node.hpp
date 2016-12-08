@@ -58,6 +58,10 @@ public:
 
     void print_edges_geo ();
 
+    bool trespass_neighbor (const Node& t_node, const double limit);
+
+    bool is_neighbor (const Node& t_node) const;
+
 private:
     int m_id = -1;
 

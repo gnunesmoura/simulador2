@@ -31,7 +31,10 @@ void Node::add_edge (double dist, Node& node) {
     edge e(dist, node);
     if(node.type() == anchor) m_anchors.push_back (e);
     else if (node.type() == not_placed) m_neighbors.push_back (e);
-    else m_placeds.push_back (e);
+    else {
+        m_placeds.push_back (e);
+        m_commons.push_back (e);
+    }
 }
 
 void Node::new_type (Type t_new) {
@@ -44,13 +47,38 @@ void Node::new_type (Type t_new) {
     }
 }
 
+/* Melhorar tirando o find_if e passando distancia como parametro */
 void Node::placement_notice (const Node & node) {
     auto obj = find_if( m_neighbors.begin (), m_neighbors.end (), 
-    [&](const edge& e) { return e.second == node; });
+                       [&](const edge& e) { return e.second == node; });
+
     if (obj != std::end(m_neighbors))
         m_placeds.push_back (*obj);
 }
 
+bool Node::trespass_neighbor (const Node& t_node, const double limit) {
+    auto res = std::find_if (m_placeds.begin (), m_placeds.end (), 
+                             [&](const Node& node){
+                                 return limit > dist (t_node, node) &&
+                                 (!t_node.is_neighbor (node)); 
+                             });
+
+    if (res != m_placeds.end ()) return true;
+
+    res = std::find_if (m_anchors.begin (), m_anchors.end (), 
+                        [&](const Node& node){
+                            return limit > dist (t_node, node) &&
+                            (!t_node.is_neighbor (node)); 
+                        });
+    
+    if (res != m_anchors.end ()) return true;
+
+    return false;
+}
+
+bool Node::is_neighbor (const Node& t_node) const{
+    
+}
 
 void Node::print_geo () {
     if(m_type == anchor) {
