@@ -15,7 +15,7 @@ typedef struct edge {
 
     double first;
     Node& second;
-    inline double dist (const Node& arg0) const;
+    double dist (const Node& arg0) const;
     constexpr bool operator< (const edge& b) const { return first < b.first; }
 }edge;
 

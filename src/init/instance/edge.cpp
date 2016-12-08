@@ -3,7 +3,7 @@
 
 using namespace sim;
 
-inline double edge::dist (const Node& arg0) const {
+double edge::dist (const Node& arg0) const {
     if (arg0 == second) return 0.0;
 
     std::valarray<double> vec (second.pos () - arg0.pos ());

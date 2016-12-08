@@ -33,6 +33,9 @@ int main (int argc, char* argv[]) {
 
     reader.print_result_file (*instance);
 
+    auto nodes = instance->nodes ();
+
+    for (auto node: nodes) node->print_geo ();
     return 0;
 }
     
