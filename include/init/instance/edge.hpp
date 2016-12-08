@@ -8,10 +8,17 @@ namespace sim {
 
 class Node;
 
-using edge = std::pair<double, Node&>;
+
+typedef struct edge {
+    constexpr edge (double t_value, Node& t_node) : 
+          first(t_value), second(t_node) {};
+
+    double first;
+    Node& second;
+    inline double dist (const Node& arg0) const;
+    constexpr bool operator< (const edge& b) const { return first < b.first; }
+}edge;
 
 using edges = std::vector<edge>;
-
-const double dist (const Node& arg0, const Node& arg1);
 
 } //namespace
