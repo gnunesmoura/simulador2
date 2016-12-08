@@ -32,7 +32,11 @@ int main (int argc, char* argv[]) {
     // printf("[desvMed\t%.lf\tdesvMax\t%.lf\tdesvQuad\t%.lf\trmsd\t%.lf\tpar\t%.lf ]\n", r.m_desv_med, r.m_desv_max, r.m_desv_quad, r.m_rmsd, r.m_par);
 
     reader.print_result_file (*instance);
+    
+    auto nodes = instance->nodes ();
 
+    for (auto node : nodes) node->print_geo ();
+    
     return 0;
 }
     
