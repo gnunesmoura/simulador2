@@ -22,9 +22,9 @@ private:
 
     std::vector<Movement> m_moves;
 
-    void find_place (Node * t_node);
+    inline void find_place (Node * t_node);
     
-    void move_until_stop (Movement& t_move, bool placed);
+    inline void move_until_stop (Movement& t_move, bool placed);
 
 };
 
