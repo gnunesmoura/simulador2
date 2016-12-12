@@ -77,7 +77,17 @@ bool Node::trespass_neighbor (const Node& t_node, const double limit) {
 }
 
 bool Node::is_neighbor (const Node& t_node) const{
+    auto res = std::find_if( m_neighbors.begin (), m_neighbors.end (), 
+                       [&](const edge& e) { return e.second == t_node; });
+
+    if (res != m_neighbors.end ()) return true;
+
+    res = std::find_if( m_anchors.begin (), m_anchors.end (), 
+                       [&](const edge& e) { return e.second == t_node; });
     
+    if (res != m_anchors.end ()) return true;
+
+    return false;
 }
 
 void Node::print_geo () {
