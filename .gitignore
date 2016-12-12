@@ -1,6 +1,7 @@
 build/
 misc/
 docs/
+.vscode/
 # Compiled Object files
 *.slo
 *.lo
