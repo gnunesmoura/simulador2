@@ -22,16 +22,26 @@ void System::solve () {
             if(t_node->type() != placed) find_place(t_node);
         });
     }
-
+    
     for_each (nodes.begin (), nodes.end (), [&](Node * t_node){
         if (t_node->type () != placed) {
             Movement move(t_node, m_instance.radio_range (), m_instance.noise ());
             move_until_stop (move, true);
+            if (move.stress ()) {
+                move.release_stress ();
+                move_until_stop (move, true);
+            }
         }
-    });    
+    }); 
+
+    bool move;
+    do {
+        move = false;
+
+    } while (move);   
 }
 
-void System::find_place (Node * t_node) {
+inline void System::find_place (Node * t_node) {
     Movement m(t_node, m_instance.radio_range (), m_instance.noise ());
     
     if (t_node->anchors_size () >= 3) 
@@ -44,9 +54,13 @@ void System::find_place (Node * t_node) {
     if (!m.stress ()) {
         t_node->new_type(placed);
         m_moves.push_back (m);
-    } else m.release_stress ();
+    } else {
+        // t_node->print_edges_geo ();
+        // pera;
+        m.release_stress ();
+    }
 }
-    
-void System::move_until_stop (Movement& t_move, bool placed) {
+
+inline void System::move_until_stop (Movement& t_move, bool placed) {
     while (t_move.move (placed));
 }
