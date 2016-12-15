@@ -22,7 +22,7 @@ int main (int argc, char* argv[]) {
 
     sim::System s(*(instance.get()));
 
-    s.solve ();
+    s.solve_tree ();
 
     sim::Evaluation r (*(instance.get ()), *(real.get ()));
     auto nodes = instance->nodes ();
@@ -33,13 +33,15 @@ int main (int argc, char* argv[]) {
     cout << "[desvMed " << r.m_desv_med << " desvMax " << r.m_desv_max << " desvQuad " << r.m_desv_quad << " rmsd " << r.m_rmsd << " par " << r.m_par << "]\n";
 
     // reader.print_result_file (*instance);
-
-    cout << instance->radio_range () << " " << instance->noise () << '\n';
-    if (argc > 2) {
-        string show("python3 instancias/exibe_redes_comparacao.py ");
-        show +=  reader.m_result_file + " " + reader.m_rede_file;
-        system(show.c_str ());
-    }
+    
+    // if (argc > 2) {
+    //     string show("python3 instancias/exibe_redes_comparacao.py ");
+    //     show +=  reader.m_result_file + " " + reader.m_rede_file;
+    //     system(show.c_str ());
+    // }
+    
     return 0;
 }
+// s.solve ();
+
     

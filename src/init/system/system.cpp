@@ -44,23 +44,75 @@ void System::solve () {
 inline void System::find_place (Node * t_node) {
     Movement m(t_node, m_instance.radio_range (), m_instance.noise ());
     
-    if (t_node->anchors_size () >= 3) 
+    // if (t_node->anchors_size () >= 3) 
         move_until_stop (m, false);
     // verificar se é necessario else if
-    else if (t_node->anchors_size() + t_node->placeds_size() >= 3)
+    // else if (t_node->anchors_size() + t_node->placeds_size() >= 3)
         move_until_stop (m, true);
-    else return;
+    // else return;
 
     if (!m.stress ()) {
         t_node->new_type(placed);
         m_moves.push_back (m);
     } else {
-        // t_node->print_edges_geo ();
-        // pera;
+        t_node->new_type(not_placed);
         m.release_stress ();
+        if (t_node->id () == 67) {
+            eae;
+        }
+        while (m.stress()){
+            m.increment_acceptable ();
+            move_until_stop (m, true);
+        }
+        t_node->new_type(placed);
+        m_moves.push_back (m);
     }
 }
 
+
+
 inline void System::move_until_stop (Movement& t_move, bool placed) {
     while (t_move.move (placed));
+}
+
+
+void System::solve_tree () {
+    auto nodes = m_instance.nodes ();
+    std::vector<Node*> queue;
+    queue.reserve(nodes.size());
+    std::for_each (nodes.begin (), nodes.end (), [&](Node * t_node){
+        if (t_node->anchors_size() >= 3) queue.push_back(t_node);
+    });
+
+    int i = 0;
+    while (i != queue.size()) {
+        find_place(queue[i]);
+        auto neighbors = queue[i]->neighbors();
+        std::for_each (neighbors.begin (), neighbors.end (), [&](edge t_edge){
+            if(t_edge.second.placeds_size() + t_edge.second.anchors_size() >= 3 && t_edge.second.type() == not_placed){
+                t_edge.second.new_type(queued);
+                queue.push_back(&(t_edge.second));
+            }
+        });
+        for (auto& move: m_moves) {
+            move_until_stop (move, true);
+        }
+        i++;
+    }
+
+    std::cout << "|id\t|tipo\t|Anchor\t|Placed\t|\n";
+    bool moved;
+    do {
+        moved = false;
+        for(auto n: nodes) {
+            if(n->type() != placed){
+                find_place(n);
+                moved = true;
+            }
+        }
+    } while (moved);
+
+    for(auto& m:  m_moves) {
+        move_until_stop(m, true);
+    }
 }

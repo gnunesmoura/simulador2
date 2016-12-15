@@ -38,7 +38,7 @@ void Node::add_edge (double dist, Node& node) {
 }
 
 void Node::new_type (Type t_new) {
-    if (m_type == t_new || m_type != not_placed) return;
+    if (m_type == t_new || m_type == placed || m_type == anchor) return;
     m_type = t_new;
     if(t_new == placed) {
         for (auto& e : m_neighbors) {

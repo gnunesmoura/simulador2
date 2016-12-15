@@ -9,7 +9,7 @@
 
 namespace sim {
 
-enum Type { anchor = 0, placed = 1, not_placed = 2 };
+enum Type { anchor = 0, placed = 1, not_placed = 2, queued = 3 };
 
 using point = std::valarray<double>;
 

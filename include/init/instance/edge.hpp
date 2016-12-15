@@ -1,9 +1,12 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <valarray>
 #include <utility>
 
+#define pera getchar()
+#define eae std::cout << "Filha da puta\n"
 namespace sim {
 
 class Node;
