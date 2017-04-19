@@ -19,6 +19,9 @@ public:
     void solve ();
 
     void solve_tree ();
+
+    void solve_test ();
+    
 private:
     Instance& m_instance;
 

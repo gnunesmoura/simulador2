@@ -10,6 +10,6 @@ double edge::dist (const Node& arg0) const {
     vec = std::pow(vec, 2.0);
     double sqr_sum = vec.sum ();
 
-    if(sqr_sum == 0) return 0;
+    if(sqr_sum <= 0) return 0;
     return std::sqrt(sqr_sum);
 }

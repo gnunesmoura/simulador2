@@ -57,9 +57,6 @@ inline void System::find_place (Node * t_node) {
     } else {
         t_node->new_type(not_placed);
         m.release_stress ();
-        if (t_node->id () == 67) {
-            eae;
-        }
         while (m.stress()){
             m.increment_acceptable ();
             move_until_stop (m, true);
@@ -89,7 +86,7 @@ void System::solve_tree () {
         find_place(queue[i]);
         auto neighbors = queue[i]->neighbors();
         std::for_each (neighbors.begin (), neighbors.end (), [&](edge t_edge){
-            if(t_edge.second.placeds_size() + t_edge.second.anchors_size() >= 3 && t_edge.second.type() == not_placed){
+            if(t_edge.second.type() == not_placed && t_edge.second.placeds_size() + t_edge.second.anchors_size() >= 3){
                 t_edge.second.new_type(queued);
                 queue.push_back(&(t_edge.second));
             }
@@ -100,7 +97,6 @@ void System::solve_tree () {
         i++;
     }
 
-    std::cout << "|id\t|tipo\t|Anchor\t|Placed\t|\n";
     bool moved;
     do {
         moved = false;
@@ -115,4 +111,24 @@ void System::solve_tree () {
     for(auto& m:  m_moves) {
         move_until_stop(m, true);
     }
+}
+
+void System::solve_test () {
+    // auto nodes = m_instance.nodes ();
+    
+    // Node* node = nodes[0];
+
+    // node->new_pos ({0,0});
+
+    // Movement m(node, m_instance.radio_range (), m_instance.noise ());
+
+    // move_until_stop(m, true);
+
+    // if(m.stress ()) std::cout << "Ta puto\n";
+
+    // m.release_stress ();
+
+    // move_until_stop
+
+    // node->print_edges_geo ();    
 }

@@ -33,6 +33,8 @@ private:
     double m_start = 0;
 
     double m_end = 0;
+
+    void set_anchors ();
 };
 
 } //namespace
