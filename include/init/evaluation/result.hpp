@@ -33,7 +33,7 @@ class Result {
     }
 
     friend std::ostream& operator<<(std::ostream& out, const Result& r){
-        return out << r.prefix << "\t[desvMed " << r.desvMed/r.n << " desvMax " << r.desvMax/r.n << " desvQuad " << r.desvQuad/r.n << " rmsd " << r.rmsd/r.n << " par " << r.par/r.n << " instances " << r.n << "]\n\n";
+        return out << "\tdesvMed\t\tdesvMax\t\tdesvQuad\trmsd\t\tpar\t\tinstancias\n" << r.prefix << "\t" << r.desvMed/r.n  << "\t" << r.desvMax/r.n << "\t" << r.desvQuad/r.n << "\t" << r.rmsd/r.n << "\t" << r.par/r.n << "\t" << r.n << "\t" << "\n\n";
     }
 
     int amount () const { return n; }

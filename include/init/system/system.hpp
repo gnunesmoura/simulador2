@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 #include <init/instance/node.hpp>
 #include <init/instance/instance.hpp>

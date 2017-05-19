@@ -69,7 +69,7 @@ std::unique_ptr<Instance> Instance_reader::read_instance () {
     }
     arq.close ();
     return std::make_unique<Instance>(std::move (commons),
-           std::move (anchors), range, noise, start, end);
+           std::move (anchors), range, noise, start, end, m_instance_name);
 }
 
 std::unique_ptr<Instance> Instance_reader::read_real_instance () {
@@ -160,7 +160,7 @@ std::unique_ptr<Instance> Instance_reader::read_real_instance () {
 
     arq.close ();
     return std::make_unique<Instance>(std::move (commons),
-           std::move (anchors), range, -1, -1, -1);
+           std::move (anchors), range, -1, -1, -1, m_instance_name);
 }
 
 void Instance_reader::print_result_file (Instance& t_calc) {

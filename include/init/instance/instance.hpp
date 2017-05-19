@@ -9,7 +9,7 @@ namespace sim {
 class Instance {
 public:
     Instance ( std::vector< std::unique_ptr<Node> > t_nodes, std::vector< std::unique_ptr<Node> > t_anchors,
-               double t_radio_range, double t_noise,double t_start, double t_end );
+               double t_radio_range, double t_noise,double t_start, double t_end, std::string t_name);
 
     const double radio_range () { return m_radio_range; }
 
@@ -20,6 +20,8 @@ public:
     const double end () { return m_end; }
 
     std::vector<Node*> nodes ();
+
+    std::string name;
     
 private:
     std::vector< std::unique_ptr<Node> >  m_nodes;

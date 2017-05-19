@@ -78,7 +78,10 @@ void System::solve_tree () {
     std::vector<Node*> queue;
     queue.reserve(nodes.size());
     std::for_each (nodes.begin (), nodes.end (), [&](Node * t_node){
-        if (t_node->anchors_size() >= 3) queue.push_back(t_node);
+        if (t_node->anchors_size() >= 3) {
+            queue.push_back(t_node);
+            std::cout << t_node->id() << "\n";
+        }
     });
 
     int i = 0;
@@ -89,6 +92,7 @@ void System::solve_tree () {
             if(t_edge.second.type() == not_placed && t_edge.second.placeds_size() + t_edge.second.anchors_size() >= 3){
                 t_edge.second.new_type(queued);
                 queue.push_back(&(t_edge.second));
+                std::cout << t_edge.second.id() << "\n";
             }
         });
         for (auto& move: m_moves) {
