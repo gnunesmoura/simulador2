@@ -40,10 +40,10 @@ int main (int argc, char* argv[]) {
     if(argc >= 2) arg = argv[1];
 
     sim::Result r (arg);
-
+    std::cout << "\tdesvMed\t\tdesvMax\t\tdesvQuad\trmsd\t\tpar\n";
     if(argc < 2) {
         for_each(instancias.begin(), instancias.end(), [&](string inst){
-            r += run(inst);
+            cout << run(inst) << '\n';
         });
     } else if (argc == 3) {
         for_each(instancias.begin(), instancias.end(), [&](string inst){
@@ -51,11 +51,9 @@ int main (int argc, char* argv[]) {
         });    
     } else {
         for_each(instancias.begin(), instancias.end(), [&](string inst){
-            if( inst.substr(0, arg.size()) == arg) r += run(inst);
+            if( inst.substr(0, arg.size()) == arg) cout << run(inst) << '\n';
         });
     }
-
-    cout << r;
 
     return 0;
 }

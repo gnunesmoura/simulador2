@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <iomanip>
+#include <locale>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -32,17 +35,18 @@ class Result {
         return *this;
     }
 
+
     friend std::ostream& operator<<(std::ostream& out, const Result& r){
-        return out << "\tdesvMed\t\tdesvMax\t\tdesvQuad\trmsd\t\tpar\t\tinstancias\n" << r.prefix << "\t" << r.desvMed/r.n  << "\t" << r.desvMax/r.n << "\t" << r.desvQuad/r.n << "\t" << r.rmsd/r.n << "\t" << r.par/r.n << "\t" << r.n << "\t" << "\n\n";
+        return out /*<< "\tdesvMed\t\tdesvMax\t\tdesvQuad\trmsd\t\tpar\t\tinstancias\n"*/ << r.prefix << "\t" << r.desvMed/r.n  << "\t" << r.desvMax/r.n << "\t" << r.desvQuad/r.n << "\t" << r.rmsd/r.n << "\t" << r.par/r.n << "\t";
     }
 
     int amount () const { return n; }
     
     std::string prefix; /// Prefix of all tests in the set.
 
-    double desvMed = 0;
+    double desvMed = 0.0;
 
-    double desvMax = 0;
+    double desvMax = 0.0;
 
     double desvQuad = 0;
 
@@ -51,5 +55,12 @@ class Result {
     double par = 0;
 
     int n = 0; /// Number of instances in the set.
+    
+    class WithComma: public std::numpunct<char> // class for decimal numbers using comma instead of point
+    {
+        protected:
+            char do_decimal_point() const { return ','; } // change the decimal separator
+    };
+
 };
 } // namespace sim

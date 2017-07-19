@@ -21,7 +21,7 @@ sim::Result run(std::string inst) {
 
     sim::Evaluation r (*(instance.get ()), *(real.get ()));
 
-
+    reader.print_result_file(*(instance.get()));
     sim::Result res(inst);
     res.add_result(r.m_desv_med, r.m_desv_max, r.m_desv_quad, r.m_rmsd, r.m_par);
     // std::cout << res;

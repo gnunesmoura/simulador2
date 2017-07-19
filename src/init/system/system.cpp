@@ -80,7 +80,6 @@ void System::solve_tree () {
     std::for_each (nodes.begin (), nodes.end (), [&](Node * t_node){
         if (t_node->anchors_size() >= 3) {
             queue.push_back(t_node);
-            std::cout << t_node->id() << "\n";
         }
     });
 
@@ -92,7 +91,6 @@ void System::solve_tree () {
             if(t_edge.second.type() == not_placed && t_edge.second.placeds_size() + t_edge.second.anchors_size() >= 3){
                 t_edge.second.new_type(queued);
                 queue.push_back(&(t_edge.second));
-                std::cout << t_edge.second.id() << "\n";
             }
         });
         for (auto& move: m_moves) {
@@ -118,21 +116,4 @@ void System::solve_tree () {
 }
 
 void System::solve_test () {
-    // auto nodes = m_instance.nodes ();
-    
-    // Node* node = nodes[0];
-
-    // node->new_pos ({0,0});
-
-    // Movement m(node, m_instance.radio_range (), m_instance.noise ());
-
-    // move_until_stop(m, true);
-
-    // if(m.stress ()) std::cout << "Ta puto\n";
-
-    // m.release_stress ();
-
-    // move_until_stop
-
-    // node->print_edges_geo ();    
 }
