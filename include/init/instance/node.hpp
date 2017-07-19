@@ -4,11 +4,12 @@
 #include <valarray>
 #include <vector>
 #include <utility>
+
 #include <init/instance/edge.hpp>
 
 namespace sim {
 
-enum Type { anchor = 0, placed = 1, not_placed = 2 };
+enum Type { anchor = 0, placed = 1, not_placed = 2, queued = 3 };
 
 using point = std::valarray<double>;
 
@@ -52,11 +53,15 @@ public:
 
     void placement_notice (const Node& node);
 
-    const point& pos () { return m_pos; }
+    const point& pos () const { return m_pos; }
 
     void print_geo ();
 
     void print_edges_geo ();
+
+    bool trespass_neighbor (const Node& t_node, const double limit);
+
+    bool is_neighbor (const Node& t_node) const;
 
 private:
     int m_id = -1;

@@ -1,42 +1,62 @@
 #include <iostream>
 #include <stdio.h>
+#include <string>
+#include <dirent.h>
 
-
-#include <init/instance/instance.hpp>
-#include <init/dao/instance_da.hpp>
-#include <init/system/system.hpp>
-#include <init/evaluation/evaluation.hpp>
+#include "init/test/tests.hpp"
+#include "init/evaluation/result.hpp"
 
 using namespace std;
 
-
 int main (int argc, char* argv[]) {
-    if(argc != 2) {
-        cout << "Para usar o sistema passe como parametro o nome da instancia.\nEx: 4.1-1\n";
-        return -1;
+    cout << "\nstarting\n\n";
+    vector<string> instancias;
+
+    instancias.reserve(200);
+    
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir ("/home/gustavo/Dropbox/Programming/c++/Simulador_2.0/build/instancias/loc/")) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            // printf ("%s\n", ent->d_name);
+            string d_name(ent->d_name);
+            if(d_name.size() > 3) {
+                d_name.erase(d_name.find("_loc.txt"));
+                instancias.push_back(d_name);
+            }
+        }
+    
+    closedir (dir);
+    
+    } else {
+        /* could not open directory */
+        perror ("");
+        return EXIT_FAILURE;
     }
 
-    sim::Instance_reader reader(argv[argc-1]);
-    auto instance = reader.read_instance ();
-    auto real = reader.read_real_instance ();
+    sort(instancias.begin(), instancias.end());
+    string arg("-");
+    if(argc >= 2) arg = argv[1];
 
-    sim::System s(*(instance.get()));
-
-    s.solve ();
-
-    sim::Evaluation r (*(instance.get ()), *(real.get ()));
-
-    r.show_erro(false, 0.000000001);
-
-    cout << "[desvMed " << r.m_desv_med << " desvMax " << r.m_desv_max << " desvQuad " << r.m_desv_quad << " rmsd " << r.m_rmsd << " par " << r.m_par << "]\n";
-    // printf("[desvMed\t%.lf\tdesvMax\t%.lf\tdesvQuad\t%.lf\trmsd\t%.lf\tpar\t%.lf ]\n", r.m_desv_med, r.m_desv_max, r.m_desv_quad, r.m_rmsd, r.m_par);
-
-    reader.print_result_file (*instance);
-    
-    auto nodes = instance->nodes ();
-
-    for (auto node : nodes) node->print_geo ();
+    sim::Result r (arg);
+    std::cout << "\tdesvMed\t\tdesvMax\t\tdesvQuad\trmsd\t\tpar\n";
+    if(argc < 2) {
+        for_each(instancias.begin(), instancias.end(), [&](string inst){
+            cout << run(inst) << '\n';
+        });
+    } else if (argc == 3) {
+        for_each(instancias.begin(), instancias.end(), [&](string inst){
+            if( inst.substr(0, arg.size()) == arg) run_geogebra(inst, 0.01);
+        });    
+    } else {
+        for_each(instancias.begin(), instancias.end(), [&](string inst){
+            if( inst.substr(0, arg.size()) == arg) cout << run(inst) << '\n';
+        });
+    }
     
     return 0;
 }
+// s.solve ();
+
     

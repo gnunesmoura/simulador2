@@ -34,7 +34,7 @@ set(PROJECT_BUILD_TYPE Release)
 set (COVERAGE_TEST OFF)
 
 # Bibliotecas que o programa utiliza como dependência
-set (PROJECT_EXTERNAL_LIBS gsl gslcblas)
+set (PROJECT_EXTERNAL_LIBS)
 
 #### Condições de configuração ####
 # Área que usa as opções do usuário para construir o programa corretamente.
@@ -57,7 +57,7 @@ if (debug)
 	# TODO: Consertar falha com CMP0037 no target do cmake
 	# set (COVERAGE_TEST ON)
 	# Define as flags de debug do compilador
-	set (CMAKE_CXX_FLAGS "-g -O1 -Wall -I/usr/local/include -pg -fprofile-arcs -ftest -coverage -lgsl")
+	set (CMAKE_CXX_FLAGS "-g -O3")
 endif()
 
 # Ativa a construção dos testes de unidade do programa

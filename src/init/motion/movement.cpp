@@ -27,7 +27,7 @@ bool Movement::move (bool placed) {
     if (placed)
         for (auto& e: m_node-> placeds ())
             move += movement(e);
-
+            
     int anchors_size = m_node->anchors_size ();
     int placeds_size = m_node->placeds_size ();
     int sum = anchors_size + placeds_size;
@@ -43,18 +43,24 @@ bool Movement::move (bool placed) {
 
 bool Movement::stress () {
     auto anchors = m_node->anchors ();
+    double limit  = m_range - (m_range * m_acceptable_error);
     auto st = std::find_if(anchors.begin(), anchors.end(), 
-            [&](const edge& e){ return norm(movement(e)) > m_acceptable_error; } );
+                           [&](const edge& e){ 
+                                return norm (movement (e)) > m_acceptable_error ||
+                                e.second.trespass_neighbor (*m_node, limit); 
+                           });
 
     if (st != anchors.end()) return true;
 
     auto placeds = m_node->placeds ();
     st = std::find_if(placeds.begin(), placeds.end(), 
-            [&](const edge& e){ return norm(movement(e)) > m_acceptable_error; } );
+                      [&](const edge& e){ 
+                          return norm (movement (e)) > m_acceptable_error ||
+                          e.second.trespass_neighbor (*m_node, limit); 
+                      });
 
     if (st != placeds.end()) return true;
 
-    
     return false;
 }
 
@@ -87,15 +93,14 @@ inline void Movement::new_pos (const vector& move) {
 }
 
 inline vector Movement::movement (const edge& neighbor) {
-    vector move = m_node->pos () - neighbor.second.pos ();
+    vector move(m_node->pos () - neighbor.second.pos ());
     
     double move_norm = norm(move);
-    if (move_norm == 0) return move;
+    if (move_norm == 0) return move - move;
 
     double divider = move_norm/neighbor.first;
 
     move = (neighbor.second.pos () - m_node->pos ()) + (move/divider);
-
     return move;
 }
 

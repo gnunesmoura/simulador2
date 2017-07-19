@@ -25,6 +25,8 @@ public:
 
     constexpr const static double m_static = 0.000000000000001;
 
+    void increment_acceptable() { m_acceptable_error *= 1.2; }
+
     const Node& node () const { return *m_node; }
 
 private:

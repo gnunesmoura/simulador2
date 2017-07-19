@@ -2,9 +2,11 @@
 
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 #include <init/instance/node.hpp>
 #include <init/instance/instance.hpp>
+#include <init/instance/edge.hpp>
 #include <init/motion/movement.hpp>
 
 namespace sim {
@@ -17,6 +19,10 @@ public:
 
     void solve ();
 
+    void solve_tree ();
+
+    void solve_test ();
+    
 private:
     Instance& m_instance;
 
@@ -24,7 +30,7 @@ private:
 
     void find_place (Node * t_node);
     
-    void move_until_stop (Movement& t_move, bool placed);
+    inline void move_until_stop (Movement& t_move, bool placed);
 
 };
 
