@@ -16,7 +16,7 @@ int main (int argc, char* argv[]) {
     
     DIR *dir;
     struct dirent *ent;
-    if ((dir = opendir ("/home/gustavo/Dropbox/Programming/c++/Simulador_2.0/build/instancias/loc/")) != NULL) {
+    if ((dir = opendir ("instancias/loc/")) != NULL) {
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL) {
             // printf ("%s\n", ent->d_name);
