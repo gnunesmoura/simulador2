@@ -352,6 +352,33 @@ src/init/system/system.cpp.s:
 	$(MAKE) -f CMakeFiles/init_lib.dir/build.make CMakeFiles/init_lib.dir/src/init/system/system.cpp.s
 .PHONY : src/init/system/system.cpp.s
 
+src/init/test/tests.o: src/init/test/tests.cpp.o
+
+.PHONY : src/init/test/tests.o
+
+# target to build an object file
+src/init/test/tests.cpp.o:
+	$(MAKE) -f CMakeFiles/init_lib.dir/build.make CMakeFiles/init_lib.dir/src/init/test/tests.cpp.o
+.PHONY : src/init/test/tests.cpp.o
+
+src/init/test/tests.i: src/init/test/tests.cpp.i
+
+.PHONY : src/init/test/tests.i
+
+# target to preprocess a source file
+src/init/test/tests.cpp.i:
+	$(MAKE) -f CMakeFiles/init_lib.dir/build.make CMakeFiles/init_lib.dir/src/init/test/tests.cpp.i
+.PHONY : src/init/test/tests.cpp.i
+
+src/init/test/tests.s: src/init/test/tests.cpp.s
+
+.PHONY : src/init/test/tests.s
+
+# target to generate assembly for a file
+src/init/test/tests.cpp.s:
+	$(MAKE) -f CMakeFiles/init_lib.dir/build.make CMakeFiles/init_lib.dir/src/init/test/tests.cpp.s
+.PHONY : src/init/test/tests.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -413,6 +440,9 @@ help:
 	@echo "... src/init/system/system.o"
 	@echo "... src/init/system/system.i"
 	@echo "... src/init/system/system.s"
+	@echo "... src/init/test/tests.o"
+	@echo "... src/init/test/tests.i"
+	@echo "... src/init/test/tests.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

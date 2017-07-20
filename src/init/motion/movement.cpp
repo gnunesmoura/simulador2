@@ -28,7 +28,7 @@ bool Movement::move (bool placed) {
         for (auto& e: m_node-> placeds ())
             move += movement(e);
             
-    int anchors_size = m_node->anchors_size ();
+    int anchors_size = m_node->anchors_size ()+1;
     int placeds_size = m_node->placeds_size ();
     int sum = anchors_size + placeds_size;
     
