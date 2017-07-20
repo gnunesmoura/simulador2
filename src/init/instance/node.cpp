@@ -2,12 +2,6 @@
 
 using namespace sim;
 
-Node::Node (int t_id, point t_pos, Type t_type) {
-    m_id = t_id;
-    m_pos = t_pos;
-    m_type = t_type;
-}
-
 bool Node::operator== (const Node& b) const {
     if(m_id == b.id()) return true;
     return false;
@@ -26,6 +20,18 @@ bool Node::operator< (const Node& b) const {
             if (this->m_neighbors.size() < neighbors_size()) return true;
     return false;
 }
+
+void Node::new_pos (point t_pos) {
+    if (t_pos[0] > m_limit[1]) m_pos[0] = m_limit[1];
+    else if (t_pos[0] < m_limit[0]) m_pos[0] = m_limit[0];
+    else m_pos[0] = t_pos[0];
+
+    if (t_pos[1] > m_limit[1]) m_pos[1] = m_limit[1];
+    else if (t_pos[1] < m_limit[0]) m_pos[1] = m_limit[0];
+    else m_pos[1] = t_pos[1];
+
+}
+
 
 void Node::add_edge (double dist, Node& node) {
     edge e(dist, node);
