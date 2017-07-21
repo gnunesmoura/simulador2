@@ -55,7 +55,7 @@ inline void System::find_place (Node * t_node) {
             move_until_stop (m, true);
         }
     }
-    
+
     t_node->new_type (placed);
     m_moves.push_back (m);
 }
@@ -93,17 +93,18 @@ void System::solve_tree () {
         i++;
     }
 
-    bool moved;
-    do {
-        moved = false;
-        for(auto n: nodes) {
-            if(n->type() != placed){
-                find_place(n);
-                moved = true;
-            }
+    for (auto n: nodes) {
+        if(n->type() != placed && n->placeds_size() + n->anchors_size() >= 2) {
+            find_place(n);
         }
-    } while (moved);
+    }
 
+    for (auto n: nodes) {
+        if(n->type() != placed) {
+            find_place(n);
+        }
+    }
+    
     for(auto& m:  m_moves) {
         move_until_stop(m, true);
     }
