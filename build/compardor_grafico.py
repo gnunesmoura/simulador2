@@ -206,7 +206,8 @@ def set_node_on_fig(node, fig):
 
     for i in range(len(id)):
         ax.annotate(str(id[i]), xy=[l_x[i], l_y[i]], textcoords='data')
-
+    
+    ax.grid(True)
     fig.canvas.draw()
 
 class Show_node:
@@ -247,6 +248,7 @@ if __name__ == "__main__":
 
     fig = figure(rede, result)
     fig2 = plt.figure()
+    plt.grid(True)
     sh = Show_node(fig, fig2, instance.nodes)
 
     plt.show()

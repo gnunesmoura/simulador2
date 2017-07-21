@@ -43,27 +43,21 @@ void System::solve () {
 
 inline void System::find_place (Node * t_node) {
     Movement m(t_node, m_instance.radio_range (), m_instance.noise ());
-    
-    // if (t_node->anchors_size () >= 3) 
-        move_until_stop (m, false);
-    // verificar se é necessario else if
-    // else if (t_node->anchors_size() + t_node->placeds_size() >= 3)
-        move_until_stop (m, true);
-    // else return;
+    move_until_stop (m, false);
+    move_until_stop (m, true);
 
-    if (!m.stress ()) {
-        t_node->new_type(placed);
-        m_moves.push_back (m);
-    } else {
-        t_node->new_type(not_placed);
+    if (m.stress ()) {
         m.release_stress ();
+        move_until_stop (m, true);
         while (m.stress()){
+            m.release_stress ();
             m.increment_acceptable ();
             move_until_stop (m, true);
         }
-        t_node->new_type(placed);
-        m_moves.push_back (m);
     }
+
+    t_node->new_type (placed);
+    m_moves.push_back (m);
 }
 
 
@@ -102,17 +96,18 @@ if(m_instance.name != "4.1-3"){
         i++;
     }
 
-    bool moved;
-    do {
-        moved = false;
-        for(auto n: nodes) {
-            if(n->type() != placed){
-                find_place(n);
-                moved = true;
-            }
+    for (auto n: nodes) {
+        if(n->type() != placed && n->placeds_size() + n->anchors_size() >= 2) {
+            find_place(n);
         }
-    } while (moved);
+    }
 
+    for (auto n: nodes) {
+        if(n->type() != placed) {
+            find_place(n);
+        }
+    }
+    
     for(auto& m:  m_moves) {
         move_until_stop(m, true);
     }
