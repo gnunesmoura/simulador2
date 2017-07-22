@@ -68,8 +68,6 @@ inline void System::move_until_stop (Movement& t_move, bool placed) {
 
 
 void System::solve_tree () {
-if(m_instance.name != "4.1-3"){
-
     auto nodes = m_instance.nodes ();
     std::vector<Node*> queue;
     queue.reserve(nodes.size());
@@ -111,7 +109,6 @@ if(m_instance.name != "4.1-3"){
     for(auto& m:  m_moves) {
         move_until_stop(m, true);
     }
-}//if
 }
 
 void System::solve_test () {

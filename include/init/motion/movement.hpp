@@ -40,7 +40,7 @@ private:
 
     edge strongest_edge ();
 
-    inline void new_pos (const vector& move);
+    inline double new_pos (const vector& move);
 
     inline vector movement (const edge& neighbor);
 
