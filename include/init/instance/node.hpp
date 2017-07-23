@@ -15,7 +15,8 @@ using point = std::valarray<double>;
 
 class Node {
 public:
-    Node (int t_id, point t_pos, Type t_type);
+    Node (int t_id, point t_pos, Type t_type, point t_limit): 
+            m_id(t_id), m_pos(t_pos), m_type(t_type), m_limit(t_limit) {}
 
     Node() {}
 
@@ -47,7 +48,7 @@ public:
     
     inline std::size_t placeds_size () const { return m_placeds.size (); }
 
-    void new_pos (point t_pos) { m_pos = t_pos; }
+    void new_pos (point t_pos);
 
     void new_type (Type t_new);
 
@@ -67,6 +68,8 @@ private:
     int m_id = -1;
 
     point m_pos;
+
+    point m_limit;
 
     Type m_type = not_placed;
 

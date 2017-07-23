@@ -15,23 +15,24 @@ std::unique_ptr<Instance> Instance_reader::read_instance () {
     arq >> anchors_size;
     arq >> range;
     arq >> noise;
-
+    
     size = nodes_size + anchors_size;
 
     std::vector< std::unique_ptr<Node> > nodes;
 
     std::valarray<double> a;
+    std::valarray<double> limit({start,end});
 
     for (i = 0; i < anchors_size; ++i) {
         arq >> x >> y;
         a = {x, y};
-        nodes.push_back (std::make_unique<Node> (i, a, anchor));
+        nodes.push_back (std::make_unique<Node> (i, a, anchor, limit));
     }
     
     x = (start + end)/2;
     a = {x, x};
     for (; i < size; ++i) 
-        nodes.push_back (std::make_unique<Node> (i, a, not_placed));
+        nodes.push_back (std::make_unique<Node> (i, a, not_placed, limit));
 
     int indice, real;
     double dist;
@@ -91,17 +92,18 @@ std::unique_ptr<Instance> Instance_reader::read_real_instance () {
     std::vector< std::unique_ptr<Node> > nodes;
 
     std::valarray<double> a;
-
+    std::valarray<double> limit({start,end});
+    
     for (i = 0; i < anchors_size; ++i) {
         arq >> x >> y;
         a = {x, y};
-        nodes.push_back (std::make_unique<Node> (i, a, anchor));
+        nodes.push_back (std::make_unique<Node> (i, a, anchor, limit));
     }
     
     x = (start + end)/2;
     a = {x, x};
     for (; i < size; ++i) 
-        nodes.push_back (std::make_unique<Node> (i, a, not_placed));
+        nodes.push_back (std::make_unique<Node> (i, a, not_placed, limit));
 
     int indice, real;
     double dist;
