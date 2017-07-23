@@ -41,25 +41,21 @@ void System::solve () {
     } while (move);   
 }
 
+
 inline void System::find_place (Node * t_node) {
     Movement m(t_node, m_instance.radio_range (), m_instance.noise ());
     move_until_stop (m, false);
     move_until_stop (m, true);
 
-    if (m.stress ()) {
+    while (m.stress()){
+        m.increment_acceptable ();
         m.release_stress ();
         move_until_stop (m, true);
-        while (m.stress()){
-            m.release_stress ();
-            m.increment_acceptable ();
-            move_until_stop (m, true);
-        }
     }
 
     t_node->new_type (placed);
     m_moves.push_back (m);
 }
-
 
 
 inline void System::move_until_stop (Movement& t_move, bool placed) {
