@@ -36,8 +36,9 @@ bool Movement::move (bool placed) {
     if (placed && placeds_size) move /= sum;
     else if (anchors_size) move /= anchors_size; 
 
-    new_pos (move);
-    if(norm(move) > m_static) return true;
+    double dist = new_pos (move);
+
+    if(dist > m_static) return true;
     return false;
 }
 
@@ -88,8 +89,8 @@ edge Movement::strongest_edge () {
     return e;
 }
 
-inline void Movement::new_pos (const vector& move) {
-    m_node->new_pos (m_node->pos () + move);
+inline double Movement::new_pos (const vector& move) {
+    return m_node->new_pos (m_node->pos () + move);
 }
 
 inline vector Movement::movement (const edge& neighbor) {

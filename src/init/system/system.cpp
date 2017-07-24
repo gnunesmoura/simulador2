@@ -41,25 +41,30 @@ void System::solve () {
     } while (move);   
 }
 
+
 inline void System::find_place (Node * t_node) {
     Movement m(t_node, m_instance.radio_range (), m_instance.noise ());
     move_until_stop (m, false);
     move_until_stop (m, true);
 
-    if (m.stress ()) {
+    while (m.stress()){
+        m.increment_acceptable ();
         m.release_stress ();
         move_until_stop (m, true);
-        while (m.stress()){
-            m.release_stress ();
-            m.increment_acceptable ();
-            move_until_stop (m, true);
-        }
     }
 
     t_node->new_type (placed);
     m_moves.push_back (m);
+    t_node->fix_limit();
 }
 
+
+inline void System::refine() {
+    for (auto& move: m_moves) {
+        move_until_stop (move, true);
+        move.node().fix_limit();
+    }
+}
 
 
 inline void System::move_until_stop (Movement& t_move, bool placed) {
@@ -78,36 +83,49 @@ void System::solve_tree () {
     });
 
     int i = 0;
-    while (i != queue.size()) {
-        find_place(queue[i]);
-        auto neighbors = queue[i]->neighbors();
-        std::for_each (neighbors.begin (), neighbors.end (), [&](edge t_edge){
-            if(t_edge.second.type() == not_placed && t_edge.second.placeds_size() + t_edge.second.anchors_size() >= 3){
-                t_edge.second.new_type(queued);
-                queue.push_back(&(t_edge.second));
-            }
+    while (i!= queue.size()) {
+        while (i != queue.size()) {
+            find_place(queue[i]);
+            auto neighbors = queue[i]->neighbors();
+            std::for_each (neighbors.begin (), neighbors.end (), [&](edge t_edge){
+                if(t_edge.second.type() == not_placed && t_edge.second.placeds_size() + t_edge.second.anchors_size() >= 3){
+                    t_edge.second.new_type(queued);
+                    queue.push_back(&(t_edge.second));
+                }
+            }); 
+
+            refine();
+            i++;
+        }
+
+        auto node = std::find_if(nodes.begin(), nodes.end(), [](Node* n) {
+            return n->type() != placed && n->placeds_size() + n->anchors_size() == 2;
         });
-        for (auto& move: m_moves) {
-            move_until_stop (move, true);
-        }
-        i++;
-    }
 
-    for (auto n: nodes) {
-        if(n->type() != placed && n->placeds_size() + n->anchors_size() >= 2) {
-            find_place(n);
-        }
-    }
+        if(node != nodes.end()) {
+            Node* chosen = *node;
+            for (auto n: nodes) {
+                if (n->type() != placed && n->placeds_size() + n->anchors_size() >= 2) {
+                    if (n->anchors_size() > chosen->anchors_size()) {
+                        chosen = n;
+                    } else if (n->placeds_size() + n->anchors_size() > chosen->placeds_size() + chosen->anchors_size()) {
+                        chosen = n;
+                    }
+                }
+            }
 
+            queue.push_back(chosen);
+        }
+
+    }
+    
     for (auto n: nodes) {
         if(n->type() != placed) {
             find_place(n);
         }
     }
     
-    for(auto& m:  m_moves) {
-        move_until_stop(m, true);
-    }
+    refine();
 }
 
 void System::solve_test () {

@@ -15,7 +15,7 @@ class Movement {
 public:
     Movement (Node * t_node, double t_range, double t_noise);
     
-    bool operator< (const Movement& b) const {return *m_node < b.node(); }
+    bool operator< (const Movement& b) const {return *m_node < b.node_(); }
 
     bool move (bool placed);
 
@@ -27,7 +27,9 @@ public:
 
     void increment_acceptable() { m_acceptable_error *= 1.2; }
 
-    const Node& node () const { return *m_node; }
+    const Node& node_ () const { return *m_node; }
+
+    Node& node () { return *m_node; }
 
 private:
     Node* m_node;
@@ -40,7 +42,7 @@ private:
 
     edge strongest_edge ();
 
-    inline void new_pos (const vector& move);
+    inline double new_pos (const vector& move);
 
     inline vector movement (const edge& neighbor);
 

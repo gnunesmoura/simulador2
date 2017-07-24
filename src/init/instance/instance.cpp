@@ -10,6 +10,7 @@ Instance::Instance ( std::vector< std::unique_ptr<Node> > t_nodes, std::vector< 
     m_noise = t_noise;
     m_start = t_start;
     m_end = t_end;
+    name = t_name;
 
     set_anchors();
 }

@@ -21,17 +21,24 @@ bool Node::operator< (const Node& b) const {
     return false;
 }
 
-void Node::new_pos (point t_pos) {
-    if (t_pos[0] > m_limit[1]) m_pos[0] = m_limit[1];
-    else if (t_pos[0] < m_limit[0]) m_pos[0] = m_limit[0];
-    else m_pos[0] = t_pos[0];
+double Node::new_pos (point t_pos) {
+    std::valarray<double> vec (m_pos - t_pos);
+    vec = std::pow(vec, 2.0);
+    double sqr_sum = vec.sum ();
+    if(sqr_sum <= 0) return 0;
 
-    if (t_pos[1] > m_limit[1]) m_pos[1] = m_limit[1];
-    else if (t_pos[1] < m_limit[0]) m_pos[1] = m_limit[0];
-    else m_pos[1] = t_pos[1];
-
+    m_pos = t_pos;
+    
+    return std::sqrt(sqr_sum);
 }
 
+void Node::fix_limit() {
+    if (m_pos[0] > m_limit[1]) m_pos[0] = m_limit[1];
+    else if (m_pos[0] < m_limit[0]) m_pos[0] = m_limit[0];
+
+    if (m_pos[1] > m_limit[1]) m_pos[1] = m_limit[1];
+    else if (m_pos[1] < m_limit[0]) m_pos[1] = m_limit[0];
+}
 
 void Node::add_edge (double dist, Node& node) {
     edge e(dist, node);
