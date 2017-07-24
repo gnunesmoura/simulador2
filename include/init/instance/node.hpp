@@ -48,13 +48,9 @@ public:
     
     inline std::size_t placeds_size () const { return m_placeds.size (); }
 
-<<<<<<< HEAD
-    void new_pos (point t_pos);
-=======
     double new_pos (point t_pos);
 
     void fix_limit();
->>>>>>> fora_area
 
     void new_type (Type t_new);
 
