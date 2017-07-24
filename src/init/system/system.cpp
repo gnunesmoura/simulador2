@@ -55,6 +55,15 @@ inline void System::find_place (Node * t_node) {
 
     t_node->new_type (placed);
     m_moves.push_back (m);
+    t_node->fix_limit();
+}
+
+
+inline void System::refine() {
+    for (auto& move: m_moves) {
+        move_until_stop (move, true);
+        move.node().fix_limit();
+    }
 }
 
 
@@ -75,9 +84,7 @@ void System::solve_tree () {
 
     int i = 0;
     while (i!= queue.size()) {
-
         while (i != queue.size()) {
-
             find_place(queue[i]);
             auto neighbors = queue[i]->neighbors();
             std::for_each (neighbors.begin (), neighbors.end (), [&](edge t_edge){
@@ -86,9 +93,8 @@ void System::solve_tree () {
                     queue.push_back(&(t_edge.second));
                 }
             }); 
-            for (auto& move: m_moves) {
-                move_until_stop (move, true);
-            }
+
+            refine();
             i++;
         }
 
@@ -119,9 +125,7 @@ void System::solve_tree () {
         }
     }
     
-    for(auto& m:  m_moves) {
-        move_until_stop(m, true);
-    }
+    refine();
 }
 
 void System::solve_test () {

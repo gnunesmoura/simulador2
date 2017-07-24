@@ -32,6 +32,8 @@ private:
     
     inline void move_until_stop (Movement& t_move, bool placed);
 
+    inline void refine();
+
 };
 
 }//namespace
